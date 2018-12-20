@@ -11,13 +11,13 @@ namespace TodoApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TodoItem>()
-            .HasOne(t => t.User)
+            modelBuilder.Entity<Tarea>()
+            .HasOne(t => t.Usuario)
             .WithMany()
             .OnDelete(DeleteBehavior.Cascade);
         }
 
-        public DbSet<TodoItem> TodoItems {get; set;}
-        public DbSet<User> Users {get; set;}
+        public DbSet<Tarea> Tareas {get; set;}
+        public DbSet<Usuario> Usuarios {get; set;}
     }
 }
