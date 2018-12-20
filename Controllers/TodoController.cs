@@ -22,7 +22,7 @@ namespace TodoApi.Controllers
       {
         // Create a new Tarea if collection is empty,
         // which means you can't delete all Tareas.
-        _context.Tareas.Add(new Tarea { Name = "tarea1" });
+        _context.Tareas.Add(new Tarea { Nombre = "tarea1" });
         _context.SaveChanges();
       }
     }
