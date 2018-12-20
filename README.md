@@ -17,4 +17,4 @@ Rest api para una aplicación de tareas pendientes
 2. Ejecutar la migración: `dotnet ef database update`
 
 ## Ejecutar el proyecto: 
-`dotnet run`
+* `dotnet run`
