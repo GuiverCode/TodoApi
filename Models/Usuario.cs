@@ -3,7 +3,7 @@ using TodoApi.Models;
 
 namespace TodoApi.Controllers
 {
-    public class User: Person
+    public class Usuario: Persona
     {
         public long Id{get; set;}
 

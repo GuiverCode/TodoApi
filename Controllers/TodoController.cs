@@ -18,29 +18,29 @@ namespace TodoApi.Controllers
     {
       _context = context;
 
-      if (_context.TodoItems.Count() == 0)
+      if (_context.Tareas.Count() == 0)
       {
-        // Create a new TodoItem if collection is empty,
-        // which means you can't delete all TodoItems.
-        _context.TodoItems.Add(new TodoItem { Name = "Item1" });
+        // Create a new Tarea if collection is empty,
+        // which means you can't delete all Tareas.
+        _context.Tareas.Add(new Tarea { Nombre = "tarea1" });
         _context.SaveChanges();
       }
     }
 
     [HttpGet]
     //La diferencia entre IEnumerable y List es que 1ro es de solo lectura
-    public async Task<ActionResult<IEnumerable<TodoItem>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Tarea>>> GetAll()
     {
       // MVC automaticamente serializa los objetos a json. 
-      return await _context.TodoItems.ToListAsync();
+      return await _context.Tareas.ToListAsync();
     }
 
     /* Name = "GetTodo" creates a named route. Named routes:
        Enable the app to create an HTTP link using the route name.*/
     [HttpGet("{id}", Name = "GetTodo")]
-    public async Task<ActionResult<TodoItem>> GetById(long id)
+    public async Task<ActionResult<Tarea>> GetById(long id)
     {
-      var item = await _context.TodoItems.FindAsync(id);
+      var item = await _context.Tareas.FindAsync(id);
       if (item == null)
       {
         //retorna HTTP 404
@@ -49,25 +49,25 @@ namespace TodoApi.Controllers
         return item;
     }
 
-    [HttpGet("user/{idUser:long}")]
-    public async Task<ActionResult<IEnumerable<TodoItem>>> GetByUser(long idUser)
+    [HttpGet("user/{idUsuario:long}")]
+    public async Task<ActionResult<IEnumerable<Tarea>>> GetByUser(long idUsuario)
     {
-      if(!await _context.Users.AnyAsync( u => u.Id == idUser)) return NotFound();
+      if(!await _context.Usuarios.AnyAsync( u => u.Id == idUsuario)) return NotFound();
 
-      /* var todos = await _context.TodoItems
-      .Where(t => t.UserId == idUser)
+      /* var todos = await _context.Tareas
+      .Where(t => t.UserId == idUsuario)
       .Include(t => t.User)
       .ToListAsync(); */
       
-      var todos = await _context.TodoItems
-      .Where(t => t.UserId == idUser)
-      .Include(t => t.User)
+      var tareas = await _context.Tareas
+      .Where(t => t.IdUsuario == idUsuario)
+      .Include(t => t.Usuario)
       .Select(t => new
       {
         t.Id,
-        t.Name,
-        t.IsComplete,
-        User = t.User.Username
+        t.Nombre,
+        t.Completado,
+        Usuario = t.Usuario.Username
       }).ToListAsync();
 
       /*
@@ -76,13 +76,13 @@ namespace TodoApi.Controllers
       obtenido de: https://docs.microsoft.com/en-us/aspnet/web-api/overview/data/using-web-api-with-entity-framework/part-5
       */ 
 
-      return Ok(todos);
+      return Ok(tareas);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(TodoItem item)
+    public async Task<IActionResult> Create(Tarea item)
 		{
-			_context.TodoItems.Add(item);
+			_context.Tareas.Add(item);
 			await _context.SaveChangesAsync();
 
       /*  CreatedAtRoute(): Retorna HTTP 201 Created
@@ -91,19 +91,19 @@ namespace TodoApi.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(long id, TodoItem item)
+    public async Task<IActionResult> Update(long id, Tarea item)
     {
-      var todo = await _context.TodoItems.FindAsync(id);
-      if (todo == null)
+      var tarea = await _context.Tareas.FindAsync(id);
+      if (tarea == null)
       {
         return NotFound();
       }
 
-      todo.IsComplete = item.IsComplete;
-      todo.Name = item.Name;
-      todo.UserId = item.UserId;
+      tarea.Completado = item.Completado;
+      tarea.Nombre = item.Nombre;
+      tarea.IdUsuario = item.IdUsuario;
 
-      _context.TodoItems.Update(todo);
+      _context.Tareas.Update(tarea);
       await _context.SaveChangesAsync();
       return NoContent();
     }
@@ -111,12 +111,12 @@ namespace TodoApi.Controllers
   	[HttpDelete("{id}")]
     public async Task<IActionResult> Delete(long id)
     {
-      var todo = await _context.TodoItems.FindAsync(id);
-      if (todo == null)
+      var tarea = await _context.Tareas.FindAsync(id);
+      if (tarea == null)
       {
         return NotFound();
       }
-      _context.TodoItems.Remove(todo);
+      _context.Tareas.Remove(tarea);
       await _context.SaveChangesAsync();
       return NoContent();
     }

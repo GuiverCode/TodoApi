@@ -5,16 +5,16 @@ using TodoApi.Controllers;
 
 namespace TodoApi.Models
 {
-    public class TodoItem
+    public class Tarea
     {
         public long Id { get; set; }
         
         [Required] 
-        public string Name { get; set; }
-        public bool IsComplete { get; set; } = false;
-        [ForeignKey("UserId")]
+        public string Nombre { get; set; }
+        public bool Completado { get; set; } = false;
+        [ForeignKey("IdUsuario")]
         [JsonIgnore]
-        public User User {get; set;}
-        public long? UserId {get; set;} 
+        public Usuario Usuario {get; set;}
+        public long? IdUsuario {get; set;} 
     }
 }
