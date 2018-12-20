@@ -1,5 +1,5 @@
 # TodoApi
-Rest api para una aplicación de tareas pendientes
+Rest api para una aplicación de tareas pendientes.
 
 ## Requerimientos
 
