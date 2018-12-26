@@ -11,13 +11,29 @@ namespace TodoApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TodoItem>()
-            .HasOne(t => t.User)
+
+            //Poblar tablas con datos semillas
+            modelBuilder.Entity<Prioridad>()
+            .HasData( 
+                new Prioridad{Id = 1, Descripcion = "Baja"},
+                new Prioridad{Id = 2, Descripcion = "Media"},
+                new Prioridad{Id = 3, Descripcion = "Alta"}
+                );
+
+            //Configuracion del delete (Cascade, Restrict)
+            modelBuilder.Entity<Tarea>()
+            .HasOne(t => t.Usuario)
             .WithMany()
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Tarea>()
+            .HasOne(t => t.Prioridad)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
         }
 
-        public DbSet<TodoItem> TodoItems {get; set;}
-        public DbSet<User> Users {get; set;}
+        public DbSet<Tarea> Tareas {get; set;}
+        public DbSet<Usuario> Usuarios {get; set;}
+        public DbSet<Prioridad> Prioridades {get; set;}
     }
 }

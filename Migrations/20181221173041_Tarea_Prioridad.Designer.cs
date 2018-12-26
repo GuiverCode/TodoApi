@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TodoApi.Models;
@@ -9,9 +10,10 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20181221173041_Tarea_Prioridad")]
+    partial class Tarea_Prioridad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,12 +54,6 @@ namespace TodoApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Prioridades");
-
-                    b.HasData(
-                        new { Id = 1L, Descripcion = "Baja" },
-                        new { Id = 2L, Descripcion = "Media" },
-                        new { Id = 3L, Descripcion = "Alta" }
-                    );
                 });
 
             modelBuilder.Entity("TodoApi.Models.Tarea", b =>

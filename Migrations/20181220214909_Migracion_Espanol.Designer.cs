@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TodoApi.Models;
@@ -9,14 +10,15 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(TodoContext))]
-    partial class TodoContextModelSnapshot : ModelSnapshot
+    [Migration("20181220214909_Migracion_Espanol")]
+    partial class Migracion_Espanol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("TodoApi.Controllers.Usuario", b =>
@@ -41,37 +43,12 @@ namespace TodoApi.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("TodoApi.Models.Prioridad", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Prioridades");
-
-                    b.HasData(
-                        new { Id = 1L, Descripcion = "Baja" },
-                        new { Id = 2L, Descripcion = "Media" },
-                        new { Id = 3L, Descripcion = "Alta" }
-                    );
-                });
-
             modelBuilder.Entity("TodoApi.Models.Tarea", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Completado");
-
-                    b.Property<string>("Descripcion");
-
-                    b.Property<DateTime?>("FechaVencimiento");
-
-                    b.Property<long?>("IdPrioridad");
 
                     b.Property<long?>("IdUsuario");
 
@@ -80,8 +57,6 @@ namespace TodoApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdPrioridad");
-
                     b.HasIndex("IdUsuario");
 
                     b.ToTable("Tareas");
@@ -89,11 +64,6 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("TodoApi.Models.Tarea", b =>
                 {
-                    b.HasOne("TodoApi.Models.Prioridad", "Prioridad")
-                        .WithMany()
-                        .HasForeignKey("IdPrioridad")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("TodoApi.Controllers.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("IdUsuario")
