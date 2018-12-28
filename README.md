@@ -9,8 +9,8 @@ Para instalar las dependencias, ejecutar `dotnet restore` dentro de la carpeta T
 
 #### Pasos para configurar el entorno de desarrollo:
 
-1. Copiar el archivo `appSettings.Development.json` y renombrarlo `appSettings.NOMBRE_AMBIENTE.json`
-2. Abrir el arhivo `appSettings.NOMBRE_AMBIENTE.json` y modificar el atributo `"ConnectionStrings"` con los valores de conexión de la base de datos local
+1. Copiar el archivo `appSettings.Development.json`
+2. Abrir el arhivo `appSettings.Development.json` y modificar el atributo `"ConnectionStrings"` con los valores de conexión de la base de datos local
 3. Establecer la variable de entorno, ejecutando el siguiente comando: `ASPNETCORE_ENVIRONMENT=NOMBRE_AMBIENTE`
 
 #### Pasos para generar una migración de base de datos:
