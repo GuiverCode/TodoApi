@@ -99,7 +99,7 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
-         private byte[] GenerateHash(string pass)
+        private byte[] GenerateHash(string pass)
         {
             if (!string.IsNullOrEmpty(pass))
             {
