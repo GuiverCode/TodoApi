@@ -61,7 +61,7 @@ namespace TodoApi.Controllers
                     return Unauthorized();
                 }
             }
-            return Ok(new {Token = GenerateJwtToken(usuario)});
+            return Ok(new {Token = GenerateJwtToken(usuario), Usuario = usuario});
         }
 
 
