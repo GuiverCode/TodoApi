@@ -66,8 +66,10 @@ namespace TodoApi
                     .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
+            // ========= CORS ==========
+            services.AddCors();
         }
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
@@ -79,11 +81,24 @@ namespace TodoApi
             {
                 app.UseHsts();
             }
-            app.UseAuthentication();
-            app.UseHttpsRedirection();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMvc();
+            app.UseCors(builder =>
+                   builder
+                   .AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader()
+                   .WithExposedHeaders(
+                           "Authorization",
+                           "Accept-Ranges",
+                           "Content-Encoding",
+                           "Content-Type",
+                           "Content-Length",
+                           "Content-Disposition",
+                           "Content-Range")
+                   )
+
+            .UseAuthentication()
+            .UseHttpsRedirection()
+            .UseMvc();
         }
     }
 }
