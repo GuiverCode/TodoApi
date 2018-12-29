@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using TodoApi.Models;
 
-namespace TodoApi.Controllers
+namespace TodoApi.Models
 {
     public class Usuario: Persona
     {
