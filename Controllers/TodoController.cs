@@ -32,7 +32,7 @@ namespace TodoApi.Controllers
     public async Task<ActionResult<IEnumerable<Tarea>>> GetAll()
     {
       // MVC automaticamente serializa los objetos a json. 
-      return await _context.Tareas.ToListAsync();
+      return await _context.Tareas.Include(t => t.Usuario).Include(t => t.Prioridad).ToListAsync();
     }
 
     /* Name = "GetTodo" creates a named route. Named routes:
@@ -120,5 +120,6 @@ namespace TodoApi.Controllers
       await _context.SaveChangesAsync();
       return NoContent();
     }
+
   }
 }
