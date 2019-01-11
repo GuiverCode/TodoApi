@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,12 +62,14 @@ namespace TodoApi.Controllers
       
       var tareas = await _context.Tareas
       .Where(t => t.IdUsuario == idUsuario)
+      .OrderBy(t => t.FechaCreacion != null && t.Completado == true)
       .Include(t => t.Usuario)
       .Select(t => new
       {
         t.Id,
         t.Nombre,
         t.Completado,
+        t.IdUsuario,
         Usuario = t.Usuario.Username
       }).ToListAsync();
 
@@ -82,6 +85,8 @@ namespace TodoApi.Controllers
     [HttpPost]
     public async Task<IActionResult> Create(Tarea item)
 		{
+      //fechaCreacion = fecha actual
+      item.FechaCreacion = DateTime.Now;
 			_context.Tareas.Add(item);
 			await _context.SaveChangesAsync();
 
@@ -102,6 +107,7 @@ namespace TodoApi.Controllers
       tarea.Completado = item.Completado;
       tarea.Nombre = item.Nombre;
       tarea.IdUsuario = item.IdUsuario;
+      tarea.FechaVencimiento = item.FechaVencimiento;
 
       _context.Tareas.Update(tarea);
       await _context.SaveChangesAsync();
