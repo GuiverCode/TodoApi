@@ -15,6 +15,7 @@ namespace TodoApi.Models
         public string Descripcion {get; set;}
         public bool Completado { get; set; } = false;
         public DateTime? FechaVencimiento {get; set;}
+        public DateTime? FechaCreacion {get; set;} = DateTime.Now;
 
         [ForeignKey("IdUsuario")]
         [JsonIgnore]
