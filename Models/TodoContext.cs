@@ -21,6 +21,7 @@ namespace TodoApi.Models
                 );
 
             //Configuracion del delete (Cascade, Restrict)
+            // si se elimina un usuario, se eliminan todas sus tareas
             modelBuilder.Entity<Tarea>()
             .HasOne(t => t.Usuario)
             .WithMany()

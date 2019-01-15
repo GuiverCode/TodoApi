@@ -62,7 +62,7 @@ namespace TodoApi.Controllers
       
       var tareas = await _context.Tareas
       .Where(t => t.IdUsuario == idUsuario)
-      .OrderBy(t => t.FechaCreacion != null && t.Completado == true)
+      .OrderBy(t => t.FechaCreacion)
       .Include(t => t.Usuario)
       .Select(t => new
       {
@@ -70,7 +70,10 @@ namespace TodoApi.Controllers
         t.Nombre,
         t.Completado,
         t.IdUsuario,
-        Usuario = t.Usuario.Username
+        Usuario = t.Usuario.Username,
+        t.Descripcion,
+        t.FechaVencimiento,
+        t.IdPrioridad
       }).ToListAsync();
 
       /*
@@ -108,10 +111,19 @@ namespace TodoApi.Controllers
       tarea.Nombre = item.Nombre;
       tarea.IdUsuario = item.IdUsuario;
       tarea.FechaVencimiento = item.FechaVencimiento;
+      tarea.Descripcion = item.Descripcion;
+      tarea.IdPrioridad = item.IdPrioridad;
 
       _context.Tareas.Update(tarea);
       await _context.SaveChangesAsync();
       return NoContent();
+      /* if(id != item.Id){
+        return BadRequest();
+      }
+      _context.Entry(item).State = EntityState.Modified;
+      await _context.SaveChangesAsync();
+
+      return NoContent();*/
     }
 
   	[HttpDelete("{id}")]
